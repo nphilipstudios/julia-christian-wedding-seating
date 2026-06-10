@@ -15,9 +15,9 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: 'Find Your Seat | Wedding Seating Chart',
+  title: 'Find Your Seat | Julia & Christian',
   description:
-    'Search your name to find your table and see where you will be seated at the venue.',
+    'Search your name to find your table and see where you will be seated at Julia & Christian\u2019s wedding.',
   generator: 'v0.app',
 }
 

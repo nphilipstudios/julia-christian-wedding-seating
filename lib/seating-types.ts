@@ -37,7 +37,7 @@ export interface SeatingData {
 }
 
 export const SAMPLE_DATA: SeatingData = {
-  eventTitle: "Emma & James",
+  eventTitle: "Julia & Christian",
   fixtures: [
     { id: "f-stage", type: "stage", label: "Head Table", x: 50, y: 9, width: 34, height: 11 },
     { id: "f-dance", type: "dancefloor", label: "Dance Floor", x: 50, y: 50, width: 30, height: 22 },
