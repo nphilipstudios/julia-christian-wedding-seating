@@ -1,18 +1,14 @@
 "use client"
 
 import { useRef, useState } from "react"
-import { Settings, ArrowLeft } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { FloorPlan } from "@/components/floor-plan"
 import { GuestSearch, GuestResultCard } from "@/components/guest-search"
-import { ManagePanel } from "@/components/manage-panel"
-import { useSeatingStore } from "@/lib/use-seating-store"
+import { SEATING_DATA } from "@/lib/seating-data"
 import type { Guest } from "@/lib/seating-types"
 
 export default function Page() {
-  const { data, loaded, persist, reset } = useSeatingStore()
+  const data = SEATING_DATA
   const [selectedGuest, setSelectedGuest] = useState<Guest | null>(null)
-  const [managing, setManaging] = useState(false)
   const planRef = useRef<HTMLDivElement>(null)
 
   function handleSelect(guest: Guest | null) {
@@ -25,44 +21,11 @@ export default function Page() {
     }
   }
 
-  if (!loaded || !data) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-background">
-        <p className="text-muted-foreground">Loading…</p>
-      </main>
-    )
-  }
-
-  if (managing) {
-    return (
-      <main className="min-h-screen bg-background">
-        <div className="mx-auto max-w-4xl px-5 py-8">
-          <div className="mb-8 flex items-center justify-between">
-            <h1 className="font-serif text-2xl text-foreground">Manage seating</h1>
-            <Button variant="outline" onClick={() => setManaging(false)}>
-              <ArrowLeft className="size-4" /> Back to search
-            </Button>
-          </div>
-          <ManagePanel data={data} onChange={persist} onReset={reset} />
-        </div>
-      </main>
-    )
-  }
-
   return (
     <main className="min-h-screen bg-background">
       <div className="mx-auto max-w-5xl px-4 pb-16 sm:px-5">
         {/* Header */}
-        <header className="relative pt-8 text-center sm:pt-14">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setManaging(true)}
-            aria-label="Manage seating chart"
-            className="absolute right-0 top-6 text-muted-foreground sm:top-12"
-          >
-            <Settings className="size-5" />
-          </Button>
+        <header className="pt-8 text-center sm:pt-14">
           <p className="font-serif text-xs uppercase tracking-[0.25em] text-muted-foreground sm:text-sm sm:tracking-[0.3em]">
             The Wedding of
           </p>
