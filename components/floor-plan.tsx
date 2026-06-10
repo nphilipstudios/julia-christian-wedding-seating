@@ -28,7 +28,7 @@ export function FloorPlan({
   return (
     <div
       className="relative w-full overflow-hidden rounded-xl border border-border bg-card shadow-sm"
-      style={{ aspectRatio: "4 / 3" }}
+      style={{ aspectRatio: "3 / 4" }}
       role="img"
       aria-label="Venue floor plan"
     >
@@ -68,7 +68,7 @@ export function FloorPlan({
             onClick={interactive ? () => onTableClick?.(t.id) : undefined}
             aria-label={`Table ${t.label}`}
             className={cn(
-              "absolute flex items-center justify-center border text-xs font-semibold transition-all duration-300",
+              "absolute flex items-center justify-center border text-sm font-semibold transition-all duration-300 sm:text-base",
               t.shape === "round" ? "rounded-full" : "rounded-md",
               interactive && "cursor-pointer hover:ring-2 hover:ring-accent",
               isHighlighted
@@ -79,8 +79,8 @@ export function FloorPlan({
             style={{
               left: `${t.x}%`,
               top: `${t.y}%`,
-              width: t.shape === "round" ? "11%" : "16%",
-              height: "11%",
+              width: t.shape === "round" ? "14%" : "20%",
+              height: t.shape === "round" ? "10.5%" : "9%",
               transform: "translate(-50%, -50%)",
             }}
           >
