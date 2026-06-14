@@ -21,12 +21,14 @@ export interface Guest {
 
 export interface VenueFixture {
   id: string
-  type: "stage" | "dancefloor" | "entrance" | "bar"
+  type: "stage" | "dancefloor" | "entrance" | "bar" | "backdrop" | "dj" | "photobooth"
   label: string
   x: number
   y: number
   width: number
   height: number
+  /** optional rotation in degrees, used to angle fixtures like the dance floor */
+  rotation?: number
 }
 
 export interface SeatingData {

@@ -70,9 +70,6 @@ export default function Page() {
             <span className="flex items-center gap-1.5">
               <span className="size-3 rounded-full bg-accent ring-1 ring-accent" /> Your table
             </span>
-            <span className="flex items-center gap-1.5">
-              <span className="size-3 rounded-sm bg-primary" /> Head table
-            </span>
           </div>
         </div>
       </div>
