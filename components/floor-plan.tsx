@@ -43,7 +43,7 @@ export function FloorPlan({
         aria-hidden="true"
       >
         <polygon
-          points="38,8 78,9 83,14 98,32 97,39 89,44 93,53 82,56 70,96 33,97 12,80 6,54"
+          points="40.6,10.5 79.4,11.2 97.7,24.6 97.3,31.6 92.9,36.5 92.9,52.7 70.1,70.3 56.9,90.2 17.8,86.7 7.1,62.6 21.8,34"
           fill="none"
           stroke="currentColor"
           strokeWidth="1.5"

@@ -108,9 +108,9 @@ export const SEATING_DATA: SeatingData = {
   eventTitle: "Julia & Christian",
 
   fixtures: [
-    { id: "f-dance", type: "dancefloor", label: "Dance Floor", x: 49.5, y: 48.5, width: 27, height: 21, rotation: 13 },
-    { id: "f-backdrop", type: "backdrop", label: "Backdrop", x: 37.8, y: 37.7, width: 19, height: 5.5, rotation: -68 },
-    { id: "f-dj", type: "dj", label: "DJ", x: 29.4, y: 48.8, width: 5.5, height: 5 },
+    { id: "f-dance", type: "dancefloor", label: "Dance Floor", x: 49, y: 48, width: 26, height: 24, rotation: 16 },
+    { id: "f-backdrop", type: "backdrop", label: "Backdrop", x: 35.8, y: 37, width: 19, height: 6, rotation: -53 },
+    { id: "f-dj", type: "dj", label: "DJ", x: 29.4, y: 48.6, width: 6, height: 5 },
   ],
 
   tables: TABLE_POSITIONS.map((t) => ({
