@@ -35,6 +35,23 @@ export function FloorPlan({
       role="img"
       aria-label="Venue floor plan"
     >
+      {/* Venue wall outline */}
+      <svg
+        className="pointer-events-none absolute inset-0 h-full w-full text-muted-foreground/50"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <polygon
+          points="38,8 78,9 83,14 98,32 97,39 89,44 93,53 82,56 70,96 33,97 12,80 6,54"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
+
       {/* Fixtures */}
       {data.fixtures.map((f) => (
         <div
@@ -71,19 +88,19 @@ export function FloorPlan({
             onClick={interactive ? () => onTableClick?.(t.id) : undefined}
             aria-label={`Table ${t.label}`}
             className={cn(
-              "absolute flex items-center justify-center border text-[8px] font-semibold leading-none transition-all duration-300 sm:text-[10px]",
+              "absolute flex items-center justify-center border text-[7px] font-semibold leading-none transition-all duration-300 sm:text-[9px]",
               t.shape === "round" ? "rounded-full" : "rounded-md",
               interactive && "cursor-pointer hover:ring-2 hover:ring-accent",
               isHighlighted
-                ? "z-20 scale-[1.6] border-accent bg-accent text-accent-foreground shadow-lg ring-2 ring-accent/50"
+                ? "z-20 scale-[1.8] border-accent bg-accent text-accent-foreground shadow-lg ring-2 ring-accent/50"
                 : "border-border bg-secondary text-secondary-foreground",
               isSelected && !isHighlighted && "ring-2 ring-primary",
             )}
             style={{
               left: `${t.x}%`,
               top: `${t.y}%`,
-              width: t.shape === "round" ? "6%" : "9%",
-              height: t.shape === "round" ? "6.9%" : "5%",
+              width: t.shape === "round" ? "4.6%" : "7%",
+              height: t.shape === "round" ? "5.3%" : "4.5%",
               transform: "translate(-50%, -50%)",
             }}
           >
