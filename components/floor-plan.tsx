@@ -53,7 +53,7 @@ export function FloorPlan({ data, highlightTable }: FloorPlanProps) {
                   ? "z-20 scale-[1.7] border-accent bg-accent text-accent-foreground shadow-lg ring-2 ring-accent/50"
                   : "z-10 border-border bg-secondary text-secondary-foreground",
               )}
-              style={{ left: `${t.x}%`, top: `${t.y}%`, width: "5%" }}
+              style={{ left: `${t.x}%`, top: `${t.y}%`, width: "4%" }}
             >
               {t.label}
 
