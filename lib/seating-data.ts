@@ -106,6 +106,13 @@ const TABLE_POSITIONS: { label: string; x: number; y: number }[] = [
   { label: "66", x: 59.2, y: 23.1 },
 ]
 
+// Linear transform mapping the original traced coordinates onto the new
+// background image. SX/SY scale, TX/TY offset (all in percent).
+const SX = 1.468
+const TX = -2.7
+const SY = 1.333
+const TY = -4.2
+
 export const SEATING_DATA: SeatingData = {
   eventTitle: "Julia & Christian",
 
@@ -113,14 +120,16 @@ export const SEATING_DATA: SeatingData = {
   // image at public/venue-floor-plan.png, so there are no drawn fixtures.
   fixtures: [],
 
-  // X_OFFSET nudges every table horizontally (negative = left, positive = right).
-  // Adjust this single value to move the whole set of markers at once.
+  // The original TABLE_POSITIONS were traced on the previous venue image.
+  // The new background image is framed/scaled differently, so each coordinate
+  // is mapped with a single linear transform (scale + offset). Tune these four
+  // numbers to align the whole set of markers at once.
   tables: TABLE_POSITIONS.map((t) => ({
     id: `t${t.label}`,
     label: t.label,
     shape: "round" as const,
-    x: t.x - 1.5,
-    y: t.y,
+    x: t.x * SX + TX,
+    y: t.y * SY + TY,
     seats: 10,
   })),
 

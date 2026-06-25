@@ -14,19 +14,20 @@ export function FloorPlan({ data, highlightTable }: FloorPlanProps) {
   return (
     <div
       className="relative w-full overflow-hidden rounded-xl border border-border bg-card shadow-sm"
-      style={{ aspectRatio: "990 / 830" }}
+      style={{ aspectRatio: "1226 / 1052" }}
       role="img"
       aria-label="Venue floor plan"
     >
       {/*
-        Inner frame is the full image (1456 x 1138). The outer container is
-        cropped to ~68% width and ~73% height, clipping the empty service wing
-        on the right and everything below table 39 at the bottom. The image and
-        the table markers share this frame so highlights stay aligned.
+        The background image is public/venue-floor-plan.png (1318 x 1156).
+        The outer container shows only the top-left ~93% width and ~91% height
+        of it, cropping the empty service wing to the right of the photo booth
+        and the empty floor below table 39. The image and the table markers
+        share this inner frame, so the highlights always stay aligned.
       */}
       <div
         className="absolute left-0 top-0"
-        style={{ width: "147.06%", height: "137.10%" }}
+        style={{ width: "107.53%", height: "109.89%" }}
       >
         {/* Real venue layout (walls, dance floor, backdrop, DJ) as the background */}
         <Image
