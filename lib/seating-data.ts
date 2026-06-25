@@ -113,11 +113,13 @@ export const SEATING_DATA: SeatingData = {
   // image at public/venue-floor-plan.png, so there are no drawn fixtures.
   fixtures: [],
 
+  // X_OFFSET nudges every table horizontally (negative = left, positive = right).
+  // Adjust this single value to move the whole set of markers at once.
   tables: TABLE_POSITIONS.map((t) => ({
     id: `t${t.label}`,
     label: t.label,
     shape: "round" as const,
-    x: t.x,
+    x: t.x - 1.5,
     y: t.y,
     seats: 10,
   })),
