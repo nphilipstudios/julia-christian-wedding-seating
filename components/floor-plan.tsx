@@ -31,7 +31,7 @@ export function FloorPlan({
   return (
     <div
       className="relative w-full overflow-hidden rounded-xl border border-border bg-card shadow-sm"
-      style={{ aspectRatio: "985 / 854" }}
+      style={{ aspectRatio: "930 / 735" }}
       role="img"
       aria-label="Venue floor plan"
     >
@@ -43,7 +43,7 @@ export function FloorPlan({
         aria-hidden="true"
       >
         <polygon
-          points="40.6,10.5 79.4,11.2 97.7,24.6 97.3,31.6 92.9,36.5 92.9,52.7 70.1,70.3 56.9,90.2 17.8,86.7 7.1,62.6 21.8,34"
+          points="37.6,1.6 93.3,21.5 94.4,28.6 97.3,29.7 93.3,52.8 88.7,63.3 66.7,99.6 12.9,99.6 4.1,84.4 1.6,72.8"
           fill="none"
           stroke="currentColor"
           strokeWidth="1.5"
@@ -99,8 +99,8 @@ export function FloorPlan({
             style={{
               left: `${t.x}%`,
               top: `${t.y}%`,
-              width: t.shape === "round" ? "4.6%" : "7%",
-              height: t.shape === "round" ? "5.3%" : "4.5%",
+              width: t.shape === "round" ? "5%" : "7%",
+              height: t.shape === "round" ? "5.6%" : "4.5%",
               transform: "translate(-50%, -50%)",
             }}
           >
