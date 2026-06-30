@@ -19,14 +19,15 @@ export function FloorPlan({ data, highlightTable }: FloorPlanProps) {
       aria-label="Venue floor plan"
     >
       {/*
-        Background image is public/venue-floor-plan.png (1318 x 1156). The outer
-        container shows the top-left ~93% width and ~91% height, cropping the
-        empty service wing right of the photo booth and the floor below table 39.
-        Image and table markers share this inner frame so highlights stay aligned.
+        Background image is public/venue-floor-plan.png (1318 x 1156). The inner
+        frame is scaled up and inset slightly (left/top offset) so the venue
+        keeps padding from the card border, while the empty service wing right of
+        the photo booth and the floor below table 39 are cropped off. Image and
+        table markers share this frame so highlights stay aligned.
       */}
       <div
-        className="absolute left-0 top-0"
-        style={{ width: "107.53%", height: "109.89%" }}
+        className="absolute"
+        style={{ left: "1.5%", top: "1.5%", width: "107.53%", height: "109.89%" }}
       >
         {/* Real venue layout (walls, dance floor, backdrop, DJ) as the background */}
         <Image

@@ -80,9 +80,9 @@ const EVEN_ROWS = [
 ]
 const EVEN = buildLattice(
   EVEN_ROWS,
-  { x: 46, y: 29.5 }, // table 2
-  { x: 3.9, y: 3.75 }, // step along a row
-  { x: 4.0, y: -5.6 }, // step to the next row (up-right)
+  { x: 47.5, y: 27.5 }, // table 2
+  { x: 4.0, y: 3.95 }, // step along a row
+  { x: 4.05, y: -5.5 }, // step to the next row (up-right)
 )
 
 // --- Odd cluster (lower-left) -------------------------------------------------
@@ -95,9 +95,9 @@ const ODD_ROWS = [
 ]
 const ODD = buildLattice(
   ODD_ROWS,
-  { x: 29, y: 54 }, // table 1
-  { x: 4.5, y: 4.2 }, // step along a row
-  { x: -4.2, y: 4.8 }, // step to the next row (down-left)
+  { x: 28, y: 52.5 }, // table 1
+  { x: 4.6, y: 4.35 }, // step along a row
+  { x: -4.35, y: 4.75 }, // step to the next row (down-left)
 )
 
 const TABLE_POSITIONS = [...ODD, ...EVEN]
