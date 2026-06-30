@@ -72,11 +72,11 @@ function buildLattice(
 // 5 diagonal rows. Numbering snakes back and forth, so some rows are listed
 // right-to-left to keep them in down-right order.
 const EVEN_ROWS = [
-  ["2", "4", "6", "8", "10", "12"],
+  ["2", "4", "6", "8", "10", "12"], // innermost row (nearest dance floor)
   ["26", "24", "22", "20", "18", "16", "14"],
-  ["28", "30", "32", "34", "36", "38", "40", "42"],
-  ["56", "54", "52", "50", "48", "46", "44"],
-  ["58", "60", "62", "64", "66", "68", "70", "72"],
+  ["28", "30", "32", "34", "36", "38", "40"],
+  ["56", "54", "52", "50", "48", "46", "44", "42"],
+  ["58", "60", "62", "64", "66", "68", "70", "72"], // outermost row
 ]
 const EVEN = buildLattice(
   EVEN_ROWS,
@@ -88,10 +88,10 @@ const EVEN = buildLattice(
 // --- Odd cluster (lower-left) -------------------------------------------------
 // 4 diagonal rows, same snake pattern.
 const ODD_ROWS = [
-  ["1", "3", "5", "7", "9"],
-  ["19", "17", "15", "13", "11"],
+  ["1", "3", "5", "7"], // innermost row (nearest dance floor)
+  ["19", "17", "15", "13", "11", "9"],
   ["21", "23", "25", "27", "29", "31"],
-  ["39", "37", "35", "33"],
+  ["39", "37", "35", "33"], // outermost row
 ]
 const ODD = buildLattice(
   ODD_ROWS,
