@@ -95,9 +95,9 @@ const ODD_ROWS = [
 ]
 const ODD = buildLattice(
   ODD_ROWS,
-  { x: 28, y: 52.5 }, // table 1
-  { x: 4.6, y: 4.35 }, // step along a row
-  { x: -4.35, y: 4.75 }, // step to the next row (down-left)
+  { x: 31, y: 51.5 }, // table 1
+  { x: 4.55, y: 4.3 }, // step along a row
+  { x: -3.7, y: 4.85 }, // step to the next row (down-left), less leftward drift
 )
 
 const TABLE_POSITIONS = [...ODD, ...EVEN]
