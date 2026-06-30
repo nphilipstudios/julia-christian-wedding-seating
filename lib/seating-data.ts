@@ -9,21 +9,20 @@ import type { SeatingData } from "./seating-types"
  *  ------------------------
  *  Each guest is one line inside the `GUESTS` list below.
  *  Copy an existing line and change the values. The `table` value must match
- *  one of the table `label`s defined in the `tables` list further down
- *  (for example "1", "2", ... "66").
+ *  one of the table labels (odd 1-39 on the lower-left, even 2-72 on the
+ *  top-right).
  *
  *    { firstName: "Olivia", lastName: "Bennett", table: "1" },
  *
- *  - firstName / lastName: how the guest searches for themselves.
- *  - table: which table they are seated at (must match a table label).
- *  - The `id` is generated automatically, so you don't need to add one.
- *
- *  HOW TO MOVE TABLES OR FIXTURES
- *  ------------------------------
- *  Each table / fixture has x / y given as a percentage (0 = left/top,
- *  100 = right/bottom) of the floor plan. Tweak these to nudge anything.
- *  Fixtures also have width/height (percent) and an optional rotation (deg).
- *  The positions below were traced from the venue floor plan you provided.
+ *  HOW TABLE POSITIONS WORK
+ *  ------------------------
+ *  The tables are arranged as two evenly-spaced diagonal grids (lattices) so
+ *  every table is the same size and the same distance apart, matching the
+ *  venue layout. Each lattice is defined by:
+ *    origin = position (in % of the background image) of the first table
+ *    u      = step vector to the next table along a row (down-right)
+ *    v      = step vector to the next row
+ *  Tune those vectors below to nudge a whole cluster at once.
  * ============================================================================
  */
 
@@ -40,78 +39,68 @@ const GUESTS: RawGuest[] = [
   { firstName: "Mason", lastName: "Foster", table: "7" },
   { firstName: "Mia", lastName: "Patel", table: "8" },
   { firstName: "Lucas", lastName: "Romano", table: "39" },
-  { firstName: "Charlotte", lastName: "Romano", table: "66" },
+  { firstName: "Charlotte", lastName: "Romano", table: "72" },
 ]
 
-// Table positions as % of the venue image (public/venue-floor-plan.png,
-// 1456 x 1138). Each value is the center of that table on the real plan,
-// so the highlight lands exactly on top of the printed table circle.
-const TABLE_POSITIONS: { label: string; x: number; y: number }[] = [
-  // Lower-left cluster (odd numbers)
-  { label: "1", x: 21.8, y: 43.5 },
-  { label: "3", x: 24.9, y: 45.9 },
-  { label: "5", x: 28.2, y: 49.2 },
-  { label: "7", x: 32.1, y: 52.1 },
-  { label: "9", x: 35.4, y: 54.7 },
-  { label: "11", x: 39.1, y: 58.2 },
-  { label: "13", x: 37.1, y: 63.4 },
-  { label: "15", x: 34.3, y: 60.6 },
-  { label: "17", x: 31.1, y: 58.2 },
-  { label: "19", x: 27.8, y: 54.7 },
-  { label: "21", x: 24.5, y: 52.1 },
-  { label: "23", x: 21.4, y: 49.2 },
-  { label: "25", x: 18.2, y: 46.6 },
-  { label: "27", x: 15.9, y: 50.4 },
-  { label: "29", x: 19.0, y: 52.7 },
-  { label: "31", x: 22.3, y: 55.8 },
-  { label: "33", x: 25.5, y: 58.7 },
-  { label: "35", x: 28.0, y: 61.9 },
-  { label: "37", x: 31.7, y: 64.9 },
-  { label: "39", x: 35.6, y: 67.8 },
-  { label: "41", x: 18.1, y: 59.6 },
-  { label: "43", x: 14.9, y: 56.4 },
-  // Top / right cluster (even numbers)
-  { label: "2", x: 33.2, y: 25.2 },
-  { label: "4", x: 37.1, y: 28.6 },
-  { label: "6", x: 40.7, y: 30.9 },
-  { label: "8", x: 43.8, y: 33.8 },
-  { label: "10", x: 47.0, y: 37.2 },
-  { label: "12", x: 50.0, y: 39.7 },
-  { label: "14", x: 55.8, y: 38.5 },
-  { label: "16", x: 52.7, y: 35.6 },
-  { label: "18", x: 49.5, y: 31.9 },
-  { label: "20", x: 45.8, y: 28.7 },
-  { label: "22", x: 42.8, y: 26.5 },
-  { label: "24", x: 39.1, y: 24.2 },
-  { label: "26", x: 35.9, y: 21.3 },
-  { label: "28", x: 38.7, y: 17.0 },
-  { label: "30", x: 42.2, y: 20.8 },
-  { label: "32", x: 46.2, y: 23.0 },
-  { label: "34", x: 49.5, y: 25.7 },
-  { label: "36", x: 52.7, y: 28.4 },
-  { label: "38", x: 55.8, y: 32.1 },
-  { label: "40", x: 58.5, y: 34.3 },
-  { label: "42", x: 60.4, y: 29.9 },
-  { label: "44", x: 57.1, y: 27.1 },
-  { label: "46", x: 54.3, y: 23.9 },
-  { label: "48", x: 51.2, y: 21.4 },
-  { label: "50", x: 47.9, y: 18.6 },
-  { label: "52", x: 44.3, y: 15.6 },
-  { label: "54", x: 40.9, y: 12.7 },
-  { label: "56", x: 43.8, y: 9.2 },
-  { label: "58", x: 47.0, y: 11.6 },
-  { label: "60", x: 50.0, y: 14.2 },
-  { label: "62", x: 53.7, y: 17.4 },
-  { label: "64", x: 56.3, y: 19.9 },
-  { label: "66", x: 59.2, y: 23.1 },
-]
+type Vec = { x: number; y: number }
 
-// Linear transform mapping the original traced coordinates onto the new
-// background image. SX/SY scale, TX/TY offset (all in percent).
-const SX = 1.468
-const TX = -2.7
-const SY = 1.333
-const TY = -4.2
+/**
+ * Build evenly-spaced table positions for one diagonal cluster.
+ * `rows` lists the table labels for each row, in down-right order.
+ * position(label) = origin + columnIndex * u + rowIndex * v
+ */
+function buildLattice(
+  rows: string[][],
+  origin: Vec,
+  u: Vec,
+  v: Vec,
+): { label: string; x: number; y: number }[] {
+  const out: { label: string; x: number; y: number }[] = []
+  rows.forEach((row, k) => {
+    row.forEach((label, i) => {
+      out.push({
+        label,
+        x: origin.x + i * u.x + k * v.x,
+        y: origin.y + i * u.y + k * v.y,
+      })
+    })
+  })
+  return out
+}
+
+// --- Even cluster (top / right of the dance floor) ---------------------------
+// 5 diagonal rows. Numbering snakes back and forth, so some rows are listed
+// right-to-left to keep them in down-right order.
+const EVEN_ROWS = [
+  ["2", "4", "6", "8", "10", "12"],
+  ["26", "24", "22", "20", "18", "16", "14"],
+  ["28", "30", "32", "34", "36", "38", "40", "42"],
+  ["56", "54", "52", "50", "48", "46", "44"],
+  ["58", "60", "62", "64", "66", "68", "70", "72"],
+]
+const EVEN = buildLattice(
+  EVEN_ROWS,
+  { x: 46, y: 29.5 }, // table 2
+  { x: 3.9, y: 3.75 }, // step along a row
+  { x: 4.0, y: -5.6 }, // step to the next row (up-right)
+)
+
+// --- Odd cluster (lower-left) -------------------------------------------------
+// 4 diagonal rows, same snake pattern.
+const ODD_ROWS = [
+  ["1", "3", "5", "7", "9"],
+  ["19", "17", "15", "13", "11"],
+  ["21", "23", "25", "27", "29", "31"],
+  ["39", "37", "35", "33"],
+]
+const ODD = buildLattice(
+  ODD_ROWS,
+  { x: 29, y: 54 }, // table 1
+  { x: 4.5, y: 4.2 }, // step along a row
+  { x: -4.2, y: 4.8 }, // step to the next row (down-left)
+)
+
+const TABLE_POSITIONS = [...ODD, ...EVEN]
 
 export const SEATING_DATA: SeatingData = {
   eventTitle: "Julia & Christian",
@@ -120,16 +109,12 @@ export const SEATING_DATA: SeatingData = {
   // image at public/venue-floor-plan.png, so there are no drawn fixtures.
   fixtures: [],
 
-  // The original TABLE_POSITIONS were traced on the previous venue image.
-  // The new background image is framed/scaled differently, so each coordinate
-  // is mapped with a single linear transform (scale + offset). Tune these four
-  // numbers to align the whole set of markers at once.
   tables: TABLE_POSITIONS.map((t) => ({
     id: `t${t.label}`,
     label: t.label,
     shape: "round" as const,
-    x: t.x * SX + TX,
-    y: t.y * SY + TY,
+    x: t.x,
+    y: t.y,
     seats: 10,
   })),
 
