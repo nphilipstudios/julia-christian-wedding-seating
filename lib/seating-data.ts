@@ -36,8 +36,8 @@ const GUESTS: Record<string, string[]> = {
     "Jaisen A. Thomas",
     "Bincy Oommen",
     "Pratesh Oommen",
-    "Abraham Kuruvilla",
-    "Justeena George",
+    "Rev. Abraham Kuruvilla",
+    "Dr. Justeena George",
   ],
   "2": [
     "Anisha Philip",
@@ -130,8 +130,8 @@ const GUESTS: Record<string, string[]> = {
     "Noah Thomas",
     "Evangeline Philip",
     "Kevin Kurian",
-    "Joshua Santosh",
-    "Sameer Paul",
+    "Dr. Joshua Santosh",
+    "Dr. Sameer Paul",
   ],
   "9": [
     "Alwin Zachariah",
@@ -151,14 +151,14 @@ const GUESTS: Record<string, string[]> = {
     "Annam Varghese",
     "Mathai Skaria",
     "Mariamma Skaria",
-    "Ajith Thomas",
-    "Anila Jacob",
+    "Dr. Ajith Thomas",
+    "Dr. Anila Jacob",
     "Kurian Varkey",
     "Lisson Kurian",
     "George P. (Kunjupappan) Varughese",
     "Sosamma (Mini) George",
     "Sera Thomas",
-    "Abraham Thomas",
+    "Dr. Abraham Thomas",
     "Varghese Olahannan",
   ],
   "11": [
@@ -176,11 +176,11 @@ const GUESTS: Record<string, string[]> = {
   ],
   "12": [
     "Robin Vannilam",
-    "Annette Vannilam",
+    "Dr. Annette Vannilam",
     "Ezekiel Vannillam",
     "Annalisa Vannilam",
-    "Vibu Varghese",
-    "Blessit Varghese",
+    "Dr. Vibu Varghese",
+    "Dr. Blessit Varghese",
     "Aaron Varghese",
     "Lia Varghese",
     "Michael Varghese",
@@ -261,7 +261,7 @@ const GUESTS: Record<string, string[]> = {
     "George Aloth",
     "Elezabeth Aloth",
     "Malia Aloth",
-    "Divya Pulliyel",
+    "Dr. Divya Pulliyel",
     "Adam Pulliyel",
     "Arun Skaria",
     "Jeesa Skaria",
@@ -293,7 +293,7 @@ const GUESTS: Record<string, string[]> = {
     "Joyce Varghese",
     "Bennett Varghese",
     "Mohan Pothen",
-    "Preethi George",
+    "Dr. Preethi George",
     "Irene George",
     "Timothy (Bennett) Varghese",
     "Karis Varghese",
@@ -358,7 +358,7 @@ const GUESTS: Record<string, string[]> = {
     "Amelia Varghese",
     "James Varughese",
     "Caroline Varughese",
-    "Manoj Mammen",
+    "Dr. Manoj Mammen",
     "Pearl Mammen",
   ],
   "25": [
@@ -432,7 +432,7 @@ const GUESTS: Record<string, string[]> = {
   "30": [
     "Mariamma Samuel",
     "T.M. Samuel",
-    "Omana Mathew",
+    "Dr. Omana Mathew",
     "Reji Mathew",
     "Koshy Kuruvilla",
     "Samuel (St. Peters) Mathai",
@@ -492,7 +492,7 @@ const GUESTS: Record<string, string[]> = {
     "Mary Joseph",
     "Kevin Joseph",
     "Upasana Joseph",
-    "Miriam Thomas",
+    "Dr. Miriam Thomas",
     "Anil (Boonton) Thomas",
     "Shaji John",
   ],
@@ -608,8 +608,8 @@ const GUESTS: Record<string, string[]> = {
   ],
   "46": [
     "George (Saddle River) Varghese",
-    "Rebekah Varghese",
-    "Sosamma Iype",
+    "Dr. Rebekah Varghese",
+    "Dr. Sosamma Iype",
     "Samuel (Pulithitta) Abraham",
     "Mariamma Abraham",
     "Julie Alex",
@@ -626,7 +626,7 @@ const GUESTS: Record<string, string[]> = {
     "Rohit George",
     "Lijin Joy",
     "Lintta Joy",
-    "Justin (PA) Mathew",
+    "Dr. Justin (PA) Mathew",
     "Chloe Mathew",
     "Richard Oommen",
     "Roshen (North Bergen) Varghese",
@@ -635,14 +635,14 @@ const GUESTS: Record<string, string[]> = {
   ],
   "50": [
     "Aashlin Thomas",
-    "Anoop Joseph",
-    "Jeena Joseph",
+    "Dr. Anoop Joseph",
+    "Dr. Jeena Joseph",
     "Sophia John",
     "Stephie John",
     "Shaina John",
-    "Manoj Paul",
-    "Neetha Paul",
-    "Anish (Jina) Thomas",
+    "Dr. Manoj Paul",
+    "Dr. Neetha Paul",
+    "Dr. Anish (Jina) Thomas",
     "Jina Joseph",
     "Shalin Thomas",
     "Sanju John",
@@ -659,7 +659,7 @@ const GUESTS: Record<string, string[]> = {
     "Shijin George",
     "Joshua Ouseph",
     "Roshan (New Hyde Park) Varughese",
-    "Elizabeth (Redeemer) John",
+    "Dr. Elizabeth (Redeemer) John",
   ],
   "54": [
     "Jacob Chacko",
@@ -696,7 +696,7 @@ const GUESTS: Record<string, string[]> = {
     "Ansa Mani",
     "Nikhil Mani",
     "Jason Varghese",
-    "Jeani John",
+    "Dr. Jeani John",
     "Dennis Thomas",
     "Jewell Thomas",
     "Davis Thomas",
@@ -721,7 +721,7 @@ const GUESTS: Record<string, string[]> = {
     "Wesley Mathews",
     "Jaime Mathews",
     "Rijo Oommen",
-    "Mely Mathew",
+    "Dr. Mely Mathew",
     "Vineeth Thomas",
     "Sonia Thomas",
     "Bilson Poikayil",
@@ -858,7 +858,9 @@ const ODD = buildLattice(
 const TABLE_POSITIONS = [...ODD, ...EVEN]
 
 // Split a full name into first/last for display + sorting. The last token is
-// treated as the surname; everything before it is the given name(s).
+// treated as the surname; everything before it (including any leading title
+// like "Dr." or "Rev.") is the given name(s). The search box treats titles as
+// optional, so guests match with or without them.
 function splitName(full: string): { firstName: string; lastName: string } {
   const parts = full.trim().split(/\s+/)
   if (parts.length === 1) return { firstName: parts[0], lastName: "" }
