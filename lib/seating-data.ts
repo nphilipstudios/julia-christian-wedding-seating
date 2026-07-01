@@ -835,9 +835,9 @@ const EVEN_ROWS = [
 ]
 const EVEN = buildLattice(
   EVEN_ROWS,
-  { x: 45, y: 33 }, // table 2 (moved closer to the dance floor)
-  { x: 4.6, y: -2.5 }, // step along a row (leans UP toward the right, following the venue wall)
-  { x: 3.1, y: -5.2 }, // step to the next row (up-right, less rightward drift so back rows clear the wall)
+  { x: 47.5, y: 28.5 }, // table 2
+  { x: 4.45, y: 3.1 }, // step along a row (flatter, so rows don't lean down)
+  { x: 3.6, y: -5.6 }, // step to the next row (up-right)
 )
 
 // --- Odd cluster (lower-left) -------------------------------------------------
