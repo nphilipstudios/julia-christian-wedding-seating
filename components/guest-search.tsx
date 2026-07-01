@@ -12,10 +12,19 @@ interface GuestSearchProps {
   onSelect: (guest: Guest | null) => void
 }
 
-// Common titles/suffixes that people may or may not include when searching.
+// Common titles/honorifics/suffixes that people may or may not include when
+// searching. Both abbreviated and spelled-out forms are ignored so a guest
+// finds themselves whether or not they type a title (e.g. "Dr.", "Doctor",
+// "Rev.", "Reverend", "Achen").
 const IGNORED_TOKENS = new Set([
-  "mr", "mrs", "ms", "miss", "dr", "rev", "fr", "pr", "pastor", "prof",
-  "sr", "jr", "the", "of", "and",
+  "mr", "mrs", "ms", "miss", "mx",
+  "dr", "doctor",
+  "rev", "reverend", "revd",
+  "fr", "father", "achen", "achan",
+  "pr", "pastor",
+  "prof", "professor",
+  "sr", "jr", "sir", "aunty", "auntie", "uncle",
+  "the", "of", "and",
 ])
 
 /**
