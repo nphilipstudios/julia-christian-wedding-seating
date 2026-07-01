@@ -69,11 +69,53 @@ function getSide(table: string): "Groom's side" | "Bride's side" | null {
   return n % 2 === 0 ? "Groom's side" : "Bride's side"
 }
 
+// Title groups: each variant maps to the full set of spellings that belong to
+// the same title. Searching any of these on its own lists everyone with that
+// title (e.g. typing "dr" or "dr." shows all doctors, "rev" shows reverends).
+const TITLE_GROUPS: string[][] = [
+  ["dr", "doctor"],
+  ["rev", "reverend", "revd"],
+  ["fr", "father", "achen", "achan"],
+  ["pastor"],
+  ["prof", "professor"],
+  ["mr"],
+  ["mrs"],
+  ["ms", "miss"],
+]
+
+/**
+ * If the entire query is just a title (e.g. "dr", "dr.", "reverend"), return
+ * the full variant set for that title so we can list everyone who has it.
+ * Otherwise returns null and the normal name search runs.
+ */
+function queryTitleVariants(query: string): string[] | null {
+  const cleaned = query.toLowerCase().replace(/[^a-z]/g, "")
+  if (!cleaned) return null
+  return TITLE_GROUPS.find((variants) => variants.includes(cleaned)) ?? null
+}
+
+/** True when a guest's name carries one of the given title variants. */
+function guestHasTitle(guest: Guest, variants: string[]): boolean {
+  const nameTokens = `${guest.firstName} ${guest.lastName}`
+    .toLowerCase()
+    .replace(/[.]/g, " ")
+    .split(/\s+/)
+  return variants.some((v) => nameTokens.includes(v))
+}
+
 export function GuestSearch({ data, selectedGuest, onSelect }: GuestSearchProps) {
   const [query, setQuery] = useState("")
 
   const results = useMemo(() => {
     if (!query.trim()) return []
+    // Title-only search: "dr" / "dr." lists all doctors, "rev" all reverends, etc.
+    const titleVariants = queryTitleVariants(query)
+    if (titleVariants) {
+      return data.guests
+        .filter((g) => guestHasTitle(g, titleVariants))
+        .sort((a, b) => a.lastName.localeCompare(b.lastName))
+        .slice(0, 50)
+    }
     return data.guests
       .filter((g) => matchesGuest(query, g))
       .sort((a, b) => a.lastName.localeCompare(b.lastName))
@@ -111,7 +153,7 @@ export function GuestSearch({ data, selectedGuest, onSelect }: GuestSearchProps)
 
       {/* Results dropdown */}
       {query.trim() && !selectedGuest && (
-        <div className="mt-2 overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+        <div className="mt-2 max-h-80 overflow-y-auto overflow-x-hidden rounded-xl border border-border bg-card shadow-sm">
           {results.length === 0 ? (
             <p className="px-4 py-6 text-center text-sm text-muted-foreground">
               No guest found matching {`"${query}"`}.
