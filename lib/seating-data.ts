@@ -28,14 +28,14 @@ import type { SeatingData } from "./seating-types"
 // Table label -> full names seated there (seat order intentionally omitted).
 const GUESTS: Record<string, string[]> = {
   "1": [
-    "Jess George",
-    "Joji George",
+    "Rev. Jess George",
+    "Rev. Joji George",
     "Neena Anna Kurien",
     "John Mathew",
-    "Jason Varghese",
-    "Jaisen A. Thomas",
+    "Rev. Jason Varghese",
+    "Rev. Jaisen A. Thomas",
     "Bincy Oommen",
-    "Pratesh Oommen",
+    "Rev. Pratesh Oommen",
     "Rev. Abraham Kuruvilla",
     "Dr. Justeena George",
   ],
