@@ -835,8 +835,8 @@ const EVEN_ROWS = [
 ]
 const EVEN = buildLattice(
   EVEN_ROWS,
-  { x: 45, y: 29.5 }, // table 2 (moved closer to the dance floor)
-  { x: 4.45, y: 2.7 }, // step along a row (flatter, so rows don't lean down)
+  { x: 45, y: 31 }, // table 2 (moved closer to the dance floor)
+  { x: 4.6, y: 1.5 }, // step along a row (flatter still, so rows sit straight and don't lean down)
   { x: 3.1, y: -5.6 }, // step to the next row (up-right, less rightward drift so back rows clear the wall)
 )
 
