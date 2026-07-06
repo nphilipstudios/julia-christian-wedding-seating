@@ -153,36 +153,48 @@ export function GuestSearch({ data, selectedGuest, onSelect }: GuestSearchProps)
 
       {/* Results dropdown */}
       {query.trim() && !selectedGuest && (
-        <div className="mt-2 max-h-80 overflow-y-auto overflow-x-hidden rounded-xl border border-border bg-card shadow-sm">
+        <div className="mt-2 overflow-hidden rounded-xl border border-border bg-card shadow-sm">
           {results.length === 0 ? (
             <p className="px-4 py-6 text-center text-sm text-muted-foreground">
               No guest found matching {`"${query}"`}.
             </p>
           ) : (
-            <ul className="divide-y divide-border">
-              {results.map((g) => (
-                <li key={g.id}>
-                  <button
-                    type="button"
-                    onClick={() => onSelect(g)}
-                    className="flex w-full items-center justify-between gap-2 px-4 py-3 text-left transition-colors hover:bg-secondary"
-                  >
-                    <span className="font-medium text-foreground">
-                      {g.firstName} {g.lastName}
-                    </span>
-                    <span className="flex flex-col items-end text-sm text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <MapPin className="size-3.5" />
-                        Table {g.table}
+            <>
+              {/* Count header — tells guests how many matches and that the list scrolls */}
+              <div className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-secondary/60 px-4 py-2 text-xs font-medium text-muted-foreground backdrop-blur">
+                <span>
+                  {results.length} {results.length === 1 ? "match" : "matches"}
+                </span>
+                {results.length > 6 && <span className="text-[11px]">Scroll for more</span>}
+              </div>
+              <ul
+                className="max-h-[60vh] divide-y divide-border overflow-y-auto overflow-x-hidden overscroll-contain sm:max-h-96"
+                style={{ WebkitOverflowScrolling: "touch" }}
+              >
+                {results.map((g) => (
+                  <li key={g.id}>
+                    <button
+                      type="button"
+                      onClick={() => onSelect(g)}
+                      className="flex w-full items-center justify-between gap-2 px-4 py-4 text-left transition-colors hover:bg-secondary active:bg-secondary sm:py-3"
+                    >
+                      <span className="font-medium leading-snug text-foreground">
+                        {g.firstName} {g.lastName}
                       </span>
-                      {getSide(g.table) && (
-                        <span className="text-xs">{getSide(g.table)}</span>
-                      )}
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </ul>
+                      <span className="flex shrink-0 flex-col items-end text-sm text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <MapPin className="size-3.5" />
+                          Table {g.table}
+                        </span>
+                        {getSide(g.table) && (
+                          <span className="text-xs">{getSide(g.table)}</span>
+                        )}
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </>
           )}
         </div>
       )}
