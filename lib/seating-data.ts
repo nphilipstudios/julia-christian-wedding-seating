@@ -579,6 +579,7 @@ const GUESTS: Record<string, string[]> = {
     "Serin Mathew",
     "Maya Mathew",
     "Jonathan Samuel",
+    "Shijin George",
   ],
   "42": [
     "Aaron Abraham",
@@ -656,10 +657,10 @@ const GUESTS: Record<string, string[]> = {
     "Tibi Samuel",
     "Alvin Philip",
     "Austin (Anil) Thomas",
-    "Shijin George",
     "Joshua Ouseph",
     "Roshan (New Hyde Park) Varughese",
     "Dr. Elizabeth (Redeemer) John",
+    "Jonathan Joshua",
   ],
   "54": [
     "Jacob Chacko",
