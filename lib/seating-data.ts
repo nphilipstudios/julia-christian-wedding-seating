@@ -567,7 +567,6 @@ const GUESTS: Record<string, string[]> = {
     "Aleyamma Varghese",
   ],
   "40": [
-    "Victoria Samuel",
     "Sarah Rachel Abraham",
     "Rueben Easaw",
     "Steven Abraham",
