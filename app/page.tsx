@@ -1,7 +1,6 @@
 "use client"
 
 import { useRef, useState } from "react"
-import { CountdownGate } from "@/components/countdown-gate"
 import { FloorPlan } from "@/components/floor-plan"
 import { GuestSearch, GuestResultCard } from "@/components/guest-search"
 import { SEATING_DATA } from "@/lib/seating-data"
@@ -23,7 +22,6 @@ export default function Page() {
   }
 
   return (
-    <CountdownGate>
     <main className="min-h-screen bg-background">
       <div className="mx-auto max-w-5xl px-4 pb-16 sm:px-5">
         {/* Header */}
@@ -76,6 +74,5 @@ export default function Page() {
         </div>
       </div>
     </main>
-    </CountdownGate>
   )
 }
