@@ -148,7 +148,6 @@ const GUESTS: Record<string, string[]> = {
     "Hetvie Thomas",
   ],
   "10": [
-    "Annam Varghese",
     "Mathai Skaria",
     "Mariamma Skaria",
     "Dr. Ajith Thomas",
@@ -159,7 +158,8 @@ const GUESTS: Record<string, string[]> = {
     "Sosamma (Mini) George",
     "Sera Thomas",
     "Dr. Abraham Thomas",
-    "Varghese Olahannan",
+    "Dr. Sosamma Iype",
+    "Darly Mathew",
   ],
   "11": [
     "Abraham Mathews",
@@ -609,7 +609,6 @@ const GUESTS: Record<string, string[]> = {
   "46": [
     "George (Saddle River) Varghese",
     "Dr. Rebekah Varghese",
-    "Dr. Sosamma Iype",
     "Samuel (Pulithitta) Abraham",
     "Mariamma Abraham",
     "Julie Alex",
@@ -745,7 +744,6 @@ const GUESTS: Record<string, string[]> = {
   ],
   "66": [
     "Marina Noble",
-    "Darly Mathew",
     "Noelle Noble",
     "Ian Noble",
     "Prem Alexander",
