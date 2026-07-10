@@ -756,7 +756,7 @@ const GUESTS: Record<string, string[]> = {
   ],
   "68": [
     "Joji John",
-    "Elizabeth (Zion) John",
+    "Elizabeth (Pushpa) John",
     "Joseph T. John",
     "Mariamma John",
     "K.C. Mathew",
