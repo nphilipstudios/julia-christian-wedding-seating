@@ -1,50 +1,100 @@
 "use client"
 
-import { useEffect, useState, type ReactNode } from "react"
-
-// The seating chart goes live at 10:45 AM Eastern on Saturday, July 11, 2026.
-// The -04:00 offset is EDT (Eastern Daylight Time), so this resolves to the
-// same instant no matter what timezone the guest's device is set to.
-const GO_LIVE = new Date("2026-07-11T10:45:00-04:00")
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react"
 
 type TimeLeft = {
   days: number
   hours: number
   minutes: number
   seconds: number
-  total: number
 }
 
-function getTimeLeft(): TimeLeft {
-  const total = GO_LIVE.getTime() - Date.now()
-  const clamped = Math.max(total, 0)
+function msToTimeLeft(ms: number): TimeLeft {
+  const clamped = Math.max(ms, 0)
   return {
     days: Math.floor(clamped / (1000 * 60 * 60 * 24)),
     hours: Math.floor((clamped / (1000 * 60 * 60)) % 24),
     minutes: Math.floor((clamped / (1000 * 60)) % 60),
     seconds: Math.floor((clamped / 1000) % 60),
-    total,
   }
 }
 
-export function CountdownGate({ children }: { children: ReactNode }) {
-  // Start null so the server and first client render match (avoids hydration
-  // mismatch), then compute the real value once mounted.
-  const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null)
+// How often to re-check with the server so the gate stays authoritative even
+// if the device clock is wrong or has been manually changed.
+const RESYNC_INTERVAL_MS = 30_000
 
-  useEffect(() => {
-    setTimeLeft(getTimeLeft())
-    const id = setInterval(() => setTimeLeft(getTimeLeft()), 1000)
-    return () => clearInterval(id)
+export function CountdownGate({ children }: { children: ReactNode }) {
+  // null = still loading the first authoritative server response.
+  const [live, setLive] = useState<boolean | null>(null)
+  const [remainingMs, setRemainingMs] = useState<number | null>(null)
+
+  // Anchor: the server's remaining time + the device timestamp captured at that
+  // moment. We only measure ELAPSED time from the anchor (not wall-clock), so
+  // changing the device clock cannot unlock the page early.
+  const anchorRef = useRef<{ remaining: number; at: number } | null>(null)
+
+  const sync = useCallback(async () => {
+    try {
+      const res = await fetch("/api/go-live", { cache: "no-store" })
+      if (!res.ok) throw new Error("bad status")
+      const data: { live: boolean; remainingMs: number } = await res.json()
+      anchorRef.current = { remaining: data.remainingMs, at: Date.now() }
+      setLive(data.live)
+      setRemainingMs(data.remainingMs)
+    } catch {
+      // On network failure, stay gated if we never got an answer; otherwise
+      // keep whatever we last knew.
+      setLive((prev) => (prev === null ? false : prev))
+    }
   }, [])
 
-  // Before mount, render nothing to keep SSR/CSR output identical.
-  if (timeLeft === null) return null
+  useEffect(() => {
+    sync()
+    const resync = setInterval(sync, RESYNC_INTERVAL_MS)
 
-  // Time has arrived — reveal the seating app.
-  if (timeLeft.total <= 0) return <>{children}</>
+    // Local 1s tick derived from the last server anchor.
+    const tick = setInterval(() => {
+      const anchor = anchorRef.current
+      if (!anchor) return
+      const elapsed = Date.now() - anchor.at
+      const left = Math.max(0, anchor.remaining - elapsed)
+      setRemainingMs(left)
+      // When the local countdown hits zero, confirm with the server rather
+      // than trusting the local tick to flip the gate.
+      if (left <= 0) sync()
+    }, 1000)
 
-  return <CountdownScreen timeLeft={timeLeft} />
+    // Re-sync when the tab regains focus (covers long sleeps and clock drift).
+    const onVisible = () => {
+      if (document.visibilityState === "visible") sync()
+    }
+    document.addEventListener("visibilitychange", onVisible)
+
+    return () => {
+      clearInterval(resync)
+      clearInterval(tick)
+      document.removeEventListener("visibilitychange", onVisible)
+    }
+  }, [sync])
+
+  // Loading the first authoritative response — render a neutral loader so we
+  // never flash either the countdown or the chart before we know the truth.
+  if (live === null) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <span className="sr-only">Loading</span>
+        <div
+          className="size-8 animate-spin rounded-full border-2 border-muted border-t-primary"
+          aria-hidden="true"
+        />
+      </div>
+    )
+  }
+
+  // Time has arrived (per the server) — reveal the seating app.
+  if (live) return <>{children}</>
+
+  return <CountdownScreen timeLeft={msToTimeLeft(remainingMs ?? 0)} />
 }
 
 function CountdownScreen({ timeLeft }: { timeLeft: TimeLeft }) {
