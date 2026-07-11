@@ -176,7 +176,7 @@ const GUESTS: Record<string, string[]> = {
   ],
   "12": [
     "Robin Vannilam",
-    "Dr. Annette Vannilam",
+    "Grace Thomas",
     "Ezekiel Vannillam",
     "Annalisa Vannilam",
     "Dr. Vibu Varghese",
